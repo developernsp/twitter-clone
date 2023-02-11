@@ -263,7 +263,7 @@ app.get("/tweets/:tweetId/", authenticateToken, async (request, response) => {
   }
 });
 
-//GET list of liked users of a given tweet API
+//GET list of liked users of a given tweet API--7
 
 app.get(
   "/tweets/:tweetId/likes/",
@@ -324,7 +324,7 @@ app.get(
   }
 );
 
-//GET Replies of a tweet if the requested user is following to that tweet user API
+//GET Replies of a tweet if the requested user is following to that tweet user API--8
 
 app.get(
   "/tweets/:tweetId/replies/",
@@ -389,7 +389,7 @@ app.get(
 );
 
 /*
-//GET All tweets of the loggedInUser API
+//GET All tweets of the loggedInUser API--9
 
 app.get("/user/tweets/", authenticateToken, async (request, response) => {
   const { username } = request;
@@ -425,7 +425,44 @@ app.get("/user/tweets/", authenticateToken, async (request, response) => {
 });
 */
 
-//POST create new tweet and to database API
+//-------------------------------------API--9(not passed fully)
+app.get("/user/tweets/", authenticateToken, async (request, response) => {
+  const { username } = request;
+
+  const sel_qry = `select user_id from user where username="${username}";`;
+  const usr_d = await db.get(sel_qry);
+  const user_D = usr_d.user_id;
+  console.log(user_D);
+  const twts_qry = `select tweet,count (like_id) as likes,
+   count (reply_id) as replies, tweet.date_time as dateTime from tweet join like on
+   tweet.tweet_id=like.tweet_id join reply on 
+    reply.tweet_id=like.tweet_id where 
+   like.user_id=${user_D} group by tweet.tweet_id;`;
+  const lis = await db.all(twts_qry);
+  console.log(lis);
+  //   console.log(user_D);
+  let all_tweets_by_user_query = `select tweet_id from tweet where user_id=${user_D};`;
+  let all_tweets_by_user = await db.all(all_tweets_by_user_query);
+  //   console.log(all_tweets_by_user);
+  let all_tweets_ids_list = [];
+  for (let x of all_tweets_by_user) {
+    // console.log(x.tweet_id);
+    all_tweets_ids_list.push(x.tweet_id);
+  }
+  let tweet_details = [];
+  for (let k of all_tweets_ids_list) {
+    const twts_qry = `select tweet,count(like_id) as likes,count(reply) as replies, tweet.date_time as dateTime from (tweet join like on tweet.tweet_id
+        =like.tweet_id) as n join reply on reply.tweet_id=n.tweet_id where tweet.tweet_id=${k};`;
+    const lis = await db.all(twts_qry);
+    console.log(lis[0]);
+    tweet_details.push(lis[0]);
+    // tweet_details.push(lis[0])
+    // console.log(lis);
+  }
+  response.send(tweet_details);
+});
+//-------------------------------------
+//POST create new tweet and to database API--10
 
 app.post("/user/tweets/", authenticateToken, async (request, response) => {
   const { tweet } = request.body;

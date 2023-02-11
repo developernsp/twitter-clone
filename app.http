@@ -40,10 +40,11 @@ GET http://localhost:3000/tweets/10/likes/
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvZUJpZGVuIiwiaWF0IjoxNjc2MDE2OTgxfQ.A8Rtgg0A6uIJIn9DWWwOUS07Vsqq7Z_mah0CuCjSz-I
 ###
 
-GET http://localhost:3000/tweets/10/replies/
+GET http://localhost:3000/tweets/6/replies/
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvZUJpZGVuIiwiaWF0IjoxNjc2MDE2OTgxfQ.A8Rtgg0A6uIJIn9DWWwOUS07Vsqq7Z_mah0CuCjSz-I
 ###
 
+//API-9
 GET http://localhost:3000/user/tweets/
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvZUJpZGVuIiwiaWF0IjoxNjc2MDE2OTgxfQ.A8Rtgg0A6uIJIn9DWWwOUS07Vsqq7Z_mah0CuCjSz-I
 ###
